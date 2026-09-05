@@ -4,6 +4,7 @@ import { ShoppingCart, UserIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/constants";
+import ModeToggle from "./modeToggle";
 
 const Header = () => {
   return (
@@ -24,6 +25,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="space-x-2">
+          <ModeToggle />
           <Button variant="ghost" render={<Link href="/cart" />}>
             <ShoppingCart />
             Cart
