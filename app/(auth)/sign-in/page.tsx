@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 import {
   Card,
@@ -11,12 +12,19 @@ import {
 } from "@/components/ui/card";
 import { APP_NAME } from "@/lib/constants";
 import LoginForm from "@/components/shared/login";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Sign In",
 };
 
-const SignInPage = () => {
+const SignInPage = async () => {
+  const session = await auth();
+
+  if (session) {
+    redirect("/");
+  }
+
   return (
     <div className="w-full max-w-md mx-auto">
       <Card>
