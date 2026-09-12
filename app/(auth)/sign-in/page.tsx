@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { APP_NAME } from "@/lib/constants";
+import LoginForm from "@/components/shared/login";
 
 export const metadata: Metadata = {
   title: "Sign In",
@@ -33,7 +34,9 @@ const SignInPage = () => {
             Sign in to your account
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">{/* Form here */}</CardContent>
+        <CardContent className="space-y-4">
+          <LoginForm />
+        </CardContent>
       </Card>
     </div>
   );
