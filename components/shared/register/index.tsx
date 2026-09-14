@@ -36,7 +36,7 @@ const RegisterForm = () => {
     <form action={action}>
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <div className="space-y-6">
-        <div>
+        <div className="space-y-1">
           <Label htmlFor="name">Name</Label>
           <Input
             id="name"
@@ -46,7 +46,7 @@ const RegisterForm = () => {
             required
           />
         </div>
-        <div>
+        <div className="space-y-1">
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
@@ -56,7 +56,7 @@ const RegisterForm = () => {
             required
           />
         </div>
-        <div>
+        <div className="space-y-1">
           <Label htmlFor="password">Password</Label>
           <Input
             id="password"
@@ -66,7 +66,7 @@ const RegisterForm = () => {
             required
           />
         </div>
-        <div>
+        <div className="space-y-1">
           <Label htmlFor="confirmPassword">Confirm Password</Label>
           <Input
             id="confirmPassword"

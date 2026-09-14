@@ -36,7 +36,7 @@ const LoginForm = () => {
     <form action={action}>
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <div className="space-y-6">
-        <div>
+        <div className="space-y-1">
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
@@ -46,7 +46,7 @@ const LoginForm = () => {
             required
           />
         </div>
-        <div>
+        <div className="space-y-1">
           <Label htmlFor="password">Password</Label>
           <Input
             id="password"
