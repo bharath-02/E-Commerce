@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ProductPrice } from "@/components/shared/product/productPrice";
 import { ProductImages } from "@/components/shared/product/productImages";
+import { AddToCart } from "@/components/shared/product/addToCart";
 import { getProductBySlug } from "@/lib/actions/product.actions";
 
 const ProductDetailsPage = async (props: {
@@ -58,7 +58,7 @@ const ProductDetailsPage = async (props: {
                     <ProductPrice value={Number(product.price)} />
                   </div>
                 </div>
-                <div className="mb-2 flex justify-between">
+                <div className="mb-4 flex justify-between">
                   <div>Status</div>
                   {product.stock > 0 ? (
                     <Badge variant="outline">In Stock</Badge>
@@ -68,7 +68,16 @@ const ProductDetailsPage = async (props: {
                 </div>
                 {product.stock > 0 && (
                   <div className="flex-center">
-                    <Button className="w-full">Add To Cart</Button>
+                    <AddToCart
+                      item={{
+                        productId: product.id,
+                        name: product.name,
+                        slug: product.slug,
+                        price: product.price,
+                        qty: 1,
+                        image: product.images![0],
+                      }}
+                    />
                   </div>
                 )}
               </CardContent>
