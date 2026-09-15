@@ -2,19 +2,13 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { compareSync } from "bcrypt-ts-edge";
-import type { NextAuthConfig } from "next-auth";
 
 import { prisma } from "@/db/prisma";
+import { authConfig } from "@/auth.config";
 
-export const config = {
-  pages: {
-    signIn: "/sign-in",
-    error: "sign-in",
-  },
-  session: {
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
+
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
@@ -56,6 +50,8 @@ export const config = {
     }),
   ],
   callbacks: {
+    ...authConfig.callbacks,
+
     async session({ session, user, trigger, token }: any) {
       // Set the user ID from token
       session.user.id = token.sub;
@@ -89,6 +85,4 @@ export const config = {
       return token;
     },
   },
-} satisfies NextAuthConfig;
-
-export const { handlers, auth, signIn, signOut } = NextAuth(config);
+});

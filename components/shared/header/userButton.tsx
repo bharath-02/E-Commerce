@@ -30,16 +30,16 @@ const UserButton = async () => {
   return (
     <div className="flex gap-2 items-center">
       <DropdownMenu>
-        <DropdownMenuTrigger>
-          <div className="flex items-center">
+        <DropdownMenuTrigger
+          render={
             <Button
               variant="ghost"
               className="relative w-8 h-8 rounded-full ml-2 flex items-center justify-center bg-gray-200"
             >
               {firstInitial}
             </Button>
-          </div>
-        </DropdownMenuTrigger>
+          }
+        />
         <DropdownMenuContent className="w-56" align="end">
           <DropdownMenuGroup>
             <DropdownMenuLabel className="font-normal">
