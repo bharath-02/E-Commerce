@@ -17,7 +17,7 @@ export const AddToCart = ({ item }: Props) => {
   const handleAddToCart = async () => {
     const response = await addItemToCart(item);
 
-    if (!response.success) {
+    if (response && !response.success) {
       toast.error(response.message);
       return;
     }
