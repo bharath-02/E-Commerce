@@ -22,7 +22,7 @@ export const AddToCart = ({ item }: Props) => {
       return;
     }
 
-    toast.success(`${item.name} added to cart`, {
+    toast.success(response.message, {
       action: {
         label: "Go To Cart",
         onClick: () => router.push("/cart"),
