@@ -1,9 +1,9 @@
 "use server";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
 
 import { prisma } from "@/db/prisma";
-import { Prisma } from "@/lib/generated/prisma/client";
 import { auth } from "@/auth";
 import { CartItem } from "@/types";
 import { convertToPlainObject, formatError, round2 } from "../utils";
