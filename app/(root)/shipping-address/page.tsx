@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { auth } from "@/auth";
 import { getMyCart } from "@/lib/actions/cart.actions";
 import { getUserById } from "@/lib/actions/user.actions";
+import { AddressForm } from "@/components/shared/shippingAddress/addressForm";
 import { ShippingAddress } from "@/types";
 
 export const metadata: Metadata = {
@@ -24,7 +25,11 @@ const ShippingAddressPage = async () => {
 
   const user = await getUserById(userId);
 
-  return <>Address</>;
+  return (
+    <>
+      <AddressForm address={user.address as ShippingAddress} />
+    </>
+  );
 };
 
 export default ShippingAddressPage;
