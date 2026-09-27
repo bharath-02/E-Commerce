@@ -1,5 +1,9 @@
+"use client";
+import { useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Check, Loader } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { createOrder } from "@/lib/actions/order.actions";
 import { formatCurrency } from "@/lib/utils";
 import { Cart, ShippingAddress } from "@/types";
 
@@ -20,7 +25,35 @@ type Props = {
   paymentMethod: string;
 };
 
+const PlaceOrderButton = ({ pending }: { pending: boolean }) => {
+  return (
+    <Button type="submit" disabled={pending} className="w-full">
+      {pending ? (
+        <Loader className="w-4 h-4 animate-spin" />
+      ) : (
+        <Check className="w-4 h-4" />
+      )}{" "}
+      Place Order
+    </Button>
+  );
+};
+
 export const PlaceOrder = ({ cart, userAddress, paymentMethod }: Props) => {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    startTransition(async () => {
+      const res = await createOrder();
+
+      if (res.redirectTo) {
+        router.push(res.redirectTo);
+      }
+    });
+  };
+
   return (
     <>
       <h1 className="py-4 text-2xl">Place Order</h1>
@@ -112,6 +145,9 @@ export const PlaceOrder = ({ cart, userAddress, paymentMethod }: Props) => {
                 <div>Total</div>
                 <div>{formatCurrency(cart.totalPrice)}</div>
               </div>
+              <form onSubmit={handleSubmit} className="w-full">
+                <PlaceOrderButton pending={isPending} />
+              </form>
             </CardContent>
           </Card>
         </div>
