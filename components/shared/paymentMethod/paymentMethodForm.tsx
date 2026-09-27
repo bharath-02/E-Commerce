@@ -68,6 +68,7 @@ export const PaymentMethodForm = ({ preferredPaymentMethod }: Props) => {
                   <FormItem className="space-y-3">
                     <FormControl>
                       <RadioGroup
+                        value={field.value}
                         onValueChange={field.onChange}
                         className="flex flex-col space-y-2"
                       >
