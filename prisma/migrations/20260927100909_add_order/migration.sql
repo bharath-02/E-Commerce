@@ -11,8 +11,8 @@ CREATE TABLE "Order" (
     "taxPrice" DECIMAL(12,2) NOT NULL,
     "isPaid" BOOLEAN NOT NULL DEFAULT false,
     "paidAt" TIMESTAMP(6),
-    "isDeivered" BOOLEAN NOT NULL DEFAULT false,
-    "deiveredAt" TIMESTAMP(6),
+    "isDelivered" BOOLEAN NOT NULL DEFAULT false,
+    "deliveredAt" TIMESTAMP(6),
     "createdAt" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
