@@ -30,3 +30,13 @@ export type Order = z.infer<typeof insertOrderSchema> & {
   user: { name: string; email: string };
 };
 export type PaymentResult = z.infer<typeof paymentResultSchema>;
+
+export type OrderHistory = {
+  id: string;
+  createdAt: Date;
+  totalPrice: string;
+  isPaid: boolean;
+  paidAt: Date | null;
+  isDelivered: boolean;
+  deliveredAt: Date | null;
+};
