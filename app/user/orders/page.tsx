@@ -19,7 +19,7 @@ const OrdersPage = async (props: {
   return (
     <div className="space-y-2">
       <h2 className="h2-bold">Orders</h2>
-      <OrderHistoryTable orders={orders.data} />
+      <OrderHistoryTable orders={orders.data} totalPages={orders.totalPages} page={page} />
     </div>
   );
 };

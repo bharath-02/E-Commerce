@@ -8,25 +8,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Pagination } from "../pagination";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { OrderHistory } from "@/types";
 
 type Props = {
   orders: OrderHistory[];
+  totalPages: number;
+  page: string;
 };
 
-export const OrderHistoryTable = ({ orders }: Props) => {
+export const OrderHistoryTable = ({ orders, totalPages, page }: Props) => {
   return (
     <div className="overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>DATE</TableHead>
-            <TableHead>TOTAL</TableHead>
-            <TableHead>PAID</TableHead>
-            <TableHead>DELIVERED</TableHead>
-            <TableHead>ACTION</TableHead>
+            <TableHead className="text-gray-500">ID</TableHead>
+            <TableHead className="text-gray-500">DATE</TableHead>
+            <TableHead className="text-gray-500">TOTAL</TableHead>
+            <TableHead className="text-gray-500">PAID</TableHead>
+            <TableHead className="text-gray-500">DELIVERED</TableHead>
+            <TableHead className="text-gray-500">ACTION</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -54,6 +57,9 @@ export const OrderHistoryTable = ({ orders }: Props) => {
           ))}
         </TableBody>
       </Table>
+      {totalPages > 1 && (
+        <Pagination page={Number(page) || 1} totalPages={totalPages} />
+      )}
     </div>
   );
 };
