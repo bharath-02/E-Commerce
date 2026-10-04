@@ -1,6 +1,12 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  PayPalButtons,
+  PayPalScriptProvider,
+  usePayPalScriptReducer,
+} from "@paypal/react-paypal-js";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,14 +18,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  createPayPalOrder,
+  approvePayPalOrder,
+} from "@/lib/actions/order.actions";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Order } from "@/types";
 
 type Props = {
   order: Order;
+  paypalClientId: string;
 };
 
-export const OrderDetailsTable = ({ order }: Props) => {
+const PrintLoadingState = () => {
+  const [{ isPending, isRejected }] = usePayPalScriptReducer();
+  let status = "";
+
+  if (isPending) {
+    status = "Loading PayPal...";
+  } else if (isRejected) {
+    status = "Error Loading PayPal";
+  }
+
+  return status;
+};
+
+export const OrderDetailsTable = ({ order, paypalClientId }: Props) => {
   const {
     id,
     shippingAddress,
@@ -34,6 +58,27 @@ export const OrderDetailsTable = ({ order }: Props) => {
     isDelivered,
     deliveredAt,
   } = order;
+
+  const handleCreatePayPalOrder = async () => {
+    const res = await createPayPalOrder(id);
+
+    if (!res.success || !res.data) {
+      toast.error(res.message || "Unable to create PayPal order");
+      throw new Error(res.message || "Unable to create PayPal order");
+    }
+
+    return res.data;
+  };
+
+  const handleApprovePayPalOrder = async (data: { orderID: string }) => {
+    const res = await approvePayPalOrder(id, data);
+
+    if (!res.success) {
+      toast.error(res.message);
+    } else {
+      toast.success(res.message);
+    }
+  };
 
   return (
     <>
@@ -130,6 +175,25 @@ export const OrderDetailsTable = ({ order }: Props) => {
                 <div>Total</div>
                 <div>{formatCurrency(totalPrice)}</div>
               </div>
+              {/* PayPal Payment */}
+              {!isPaid && paymentMethod === "PayPal" && (
+                <div>
+                  <PayPalScriptProvider options={{ clientId: paypalClientId }}>
+                    <PrintLoadingState />
+                    <PayPalButtons
+                      createOrder={handleCreatePayPalOrder}
+                      onApprove={handleApprovePayPalOrder}
+                      onCancel={(data) => {
+                        console.log("======PAYPAL CANCELLED", data);
+                      }}
+                      onError={(err) => {
+                        console.error("======PAYPAL ERROR", err);
+                        toast.error("PayPal checkout failed");
+                      }}
+                    />
+                  </PayPalScriptProvider>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
