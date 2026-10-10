@@ -8,10 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import { Pagination } from "../pagination";
+import { DeleteDialog } from "../deleteDialog";
+import { deleteOrder } from "@/lib/actions/order.actions";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { OrderHistory } from "@/types";
-import { Button } from "@/components/ui/button";
 
 type Props = {
   orders: OrderHistory[];
@@ -53,7 +55,7 @@ export const OrdersTable = ({ orders, totalPages, page }: Props) => {
                 <Button variant="outline" size="sm">
                   <Link href={`/order/${order.id}`}>Details</Link>
                 </Button>
-                {/* DELETE BUTTON */}
+                <DeleteDialog id={order.id} action={deleteOrder} />
               </TableCell>
             </TableRow>
           ))}
