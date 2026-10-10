@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Charts } from "./charts";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
 import { getOrderSummary } from "@/lib/actions/order.actions";
 
@@ -21,7 +22,9 @@ export const Overview = async () => {
         <CardHeader>
           <CardTitle>Overview</CardTitle>
         </CardHeader>
-        <CardContent>{/* CAHRT HERE */}</CardContent>
+        <CardContent>
+          <Charts salesData={summary.salesData} />
+        </CardContent>
       </Card>
       <Card className="col-span-3">
         <CardHeader>
