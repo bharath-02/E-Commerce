@@ -1,4 +1,5 @@
 "use client";
+import { useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -9,6 +10,7 @@ import {
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -21,6 +23,8 @@ import {
 import {
   createPayPalOrder,
   approvePayPalOrder,
+  updateOrderToPaidCOD,
+  deliverOrder,
 } from "@/lib/actions/order.actions";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Order } from "@/types";
@@ -28,6 +32,55 @@ import { Order } from "@/types";
 type Props = {
   order: Order;
   paypalClientId: string;
+  isAdmin: boolean;
+};
+
+// Button to mark order as paid
+const MarkAsPaidButton = ({ id }: { id: string }) => {
+  const [isPending, startTransition] = useTransition();
+
+  return (
+    <Button
+      type="button"
+      disabled={isPending}
+      onClick={() =>
+        startTransition(async () => {
+          const res = await updateOrderToPaidCOD(id);
+          if (!res.success) {
+            toast.error(res.message);
+          } else {
+            toast.success(res.message);
+          }
+        })
+      }
+    >
+      {isPending ? "Processing..." : "Mark As Paid"}
+    </Button>
+  );
+};
+
+// Button to mark order as delivered
+const MarkAsDeliveredButton = ({ id }: { id: string }) => {
+  const [isPending, startTransition] = useTransition();
+
+  return (
+    <Button
+      type="button"
+      disabled={isPending}
+      onClick={() =>
+        startTransition(async () => {
+          const res = await deliverOrder(id);
+          if (!res.success) {
+            toast.error(res.message);
+          } else {
+            toast.success(res.message);
+          }
+        })
+      }
+    >
+      {isPending ? "Processing..." : "Mark As Delivered"}
+    </Button>
+  );
 };
 
 const PrintLoadingState = () => {
@@ -43,7 +96,11 @@ const PrintLoadingState = () => {
   return status;
 };
 
-export const OrderDetailsTable = ({ order, paypalClientId }: Props) => {
+export const OrderDetailsTable = ({
+  order,
+  paypalClientId,
+  isAdmin,
+}: Props) => {
   const {
     id,
     shippingAddress,
@@ -193,6 +250,16 @@ export const OrderDetailsTable = ({ order, paypalClientId }: Props) => {
                     />
                   </PayPalScriptProvider>
                 </div>
+              )}
+
+              {/* Cash On Delivery */}
+              {isAdmin && !isPaid && paymentMethod === "CashOnDelivery" && (
+                <MarkAsPaidButton id={id} />
+              )}
+
+              {/* Mark as Delivered button */}
+              {isAdmin && isPaid && !isDelivered && (
+                <MarkAsDeliveredButton id={id} />
               )}
             </CardContent>
           </Card>
