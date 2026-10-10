@@ -34,10 +34,10 @@ export const Overview = async () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>BUYER</TableHead>
-                <TableHead>DATE</TableHead>
-                <TableHead>TOTAL</TableHead>
-                <TableHead>ACTIONS</TableHead>
+                <TableHead className="text-gray-400">BUYER</TableHead>
+                <TableHead className="text-gray-400">DATE</TableHead>
+                <TableHead className="text-gray-400">TOTAL</TableHead>
+                <TableHead className="text-gray-400">ACTIONS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
