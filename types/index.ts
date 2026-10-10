@@ -40,3 +40,8 @@ export type OrderHistory = {
   isDelivered: boolean;
   deliveredAt: Date | null;
 };
+
+export type SalesDataType = {
+  month: string;
+  totalSales: number;
+}[];
