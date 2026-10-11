@@ -24,6 +24,14 @@ export async function getProductBySlug(slug: string) {
   });
 }
 
+// Get product by id
+export async function getProductById(productId: string) {
+  const data = await prisma.product.findFirst({
+    where: { id: productId },
+  });
+  return convertToPlainObject(data);
+}
+
 // Get all products
 export async function getAllProducts({
   limit = PAGE_SIZE,
@@ -37,6 +45,7 @@ export async function getAllProducts({
   category?: string;
 }) {
   const data = await prisma.product.findMany({
+    orderBy: { createdAt: "desc" },
     take: limit,
     skip: (page - 1) * limit,
   });
