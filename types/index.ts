@@ -9,6 +9,14 @@ import {
   paymentResultSchema,
 } from "@/lib/validators";
 
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  createdAt: Date;
+};
+
 export type Product = z.infer<typeof insertProductSchema> & {
   id: string;
   rating: string;
