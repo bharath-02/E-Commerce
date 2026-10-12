@@ -35,7 +35,11 @@ type Props = {
 export const ProductForm = ({ type, product, productId }: Props) => {
   const router = useRouter();
 
-  const form = useForm<z.input<typeof insertProductSchema>>({
+  const form = useForm<
+    z.input<typeof insertProductSchema>,
+    undefined,
+    z.output<typeof insertProductSchema>
+  >({
     resolver: zodResolver(
       type === "Update" ? updateProductSchema : insertProductSchema,
     ),
@@ -182,7 +186,12 @@ export const ProductForm = ({ type, product, productId }: Props) => {
               <FormItem className="w-full">
                 <FormLabel>Stock</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter stock" {...field} />
+                  <Input
+                    type="number"
+                    placeholder="Enter stock"
+                    {...field}
+                    value={field.value == null ? "" : String(field.value)}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
