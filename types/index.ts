@@ -47,6 +47,9 @@ export type OrderHistory = {
   paidAt: Date | null;
   isDelivered: boolean;
   deliveredAt: Date | null;
+  user?: {
+    name: string;
+  };
 };
 
 export type SalesDataType = {

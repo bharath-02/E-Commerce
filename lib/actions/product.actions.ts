@@ -1,5 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
 import z from "zod";
 
 import { prisma } from "@/db/prisma";
@@ -44,7 +45,19 @@ export async function getAllProducts({
   query: string;
   category?: string;
 }) {
+  const queryFilter: Prisma.ProductWhereInput =
+    query && query !== "all"
+      ? {
+          name: {
+            contains: query,
+            mode: "insensitive",
+          } as Prisma.StringFilter,
+        }
+      : {};
   const data = await prisma.product.findMany({
+    where: {
+      ...queryFilter,
+    },
     orderBy: { createdAt: "desc" },
     take: limit,
     skip: (page - 1) * limit,

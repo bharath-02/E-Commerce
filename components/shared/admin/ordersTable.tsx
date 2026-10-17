@@ -29,6 +29,7 @@ export const OrdersTable = ({ orders, totalPages, page }: Props) => {
           <TableRow>
             <TableHead className="text-gray-500">ID</TableHead>
             <TableHead className="text-gray-500">DATE</TableHead>
+            <TableHead className="text-gray-500">BUYER</TableHead>
             <TableHead className="text-gray-500">TOTAL</TableHead>
             <TableHead className="text-gray-500">PAID</TableHead>
             <TableHead className="text-gray-500">DELIVERED</TableHead>
@@ -40,6 +41,7 @@ export const OrdersTable = ({ orders, totalPages, page }: Props) => {
             <TableRow key={order.id}>
               <TableCell>{formatId(order.id)}</TableCell>
               <TableCell>{formatDateTime(order.createdAt).dateTime}</TableCell>
+              <TableCell>{order?.user?.name}</TableCell>
               <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
               <TableCell>
                 {order.isPaid && order.paidAt
