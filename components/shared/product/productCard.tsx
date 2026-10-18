@@ -13,13 +13,17 @@ export const ProductCard = ({ product }: Props) => {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader className="p-0 items-center">
-        <Link href={`/product/${product.slug}`}>
+        <Link
+          href={`/product/${product.slug}`}
+          className="flex h-75 w-full items-center justify-center"
+        >
           <Image
             src={product.images[0]}
             alt={product.name}
-            height={300}
             width={300}
-            priority={true}
+            height={300}
+            priority
+            className="h-full w-full object-contain"
           />
         </Link>
       </CardHeader>

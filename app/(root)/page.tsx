@@ -14,7 +14,7 @@ const HomePage = async () => {
       {featuredProducts.length > 0 && (
         <ProductCarousel data={featuredProducts} />
       )}
-      <ProductList data={latestProducts} title="Newest Arrivals" limit={6} />
+      <ProductList data={latestProducts} title="Newest Arrivals" limit={8} />
     </>
   );
 };
