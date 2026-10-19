@@ -23,3 +23,7 @@ After editing schema.prisma file, please make sure to run below commands
 
 - npx prisma generate
 - npx prisma migrate dev --name {name of the action you're doing}
+
+To Seed data to the DB
+
+- npx tsx db/seed.ts
