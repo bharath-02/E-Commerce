@@ -1,8 +1,19 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { Calendar, User } from "lucide-react";
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ReviewForm } from "./reviewForm";
+import Rating from "./rating";
+import { getReviews } from "@/lib/actions/review.actions";
+import { formatDateTime } from "@/lib/utils";
 import { Review } from "@/types";
 
 type Props = {
@@ -13,6 +24,15 @@ type Props = {
 
 export const ReviewList = ({ userId, productId, productSlug }: Props) => {
   const [reviews, setReviews] = useState<Review[]>([]);
+
+  useEffect(() => {
+    const loadReviews = async () => {
+      const res = await getReviews({ productId });
+      setReviews(res.data);
+    };
+
+    loadReviews();
+  }, [productId]);
 
   const reload = () => {
     console.log("Review Submitted");
@@ -39,7 +59,31 @@ export const ReviewList = ({ userId, productId, productSlug }: Props) => {
           to write a review
         </div>
       )}
-      <div className="flex flex-col gap-3">{/* REVIEWS HERE */}</div>
+      <div className="flex flex-col gap-3">
+        {reviews.map((review) => (
+          <Card key={review.id}>
+            <CardHeader>
+              <div className="flex-between">
+                <CardTitle>{review.title}</CardTitle>
+              </div>
+              <CardDescription>{review.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex space-x-4 text-sm text-muted-foreground">
+                <Rating value={review.rating} />
+                <div className="flex items-center">
+                  <User className="mr-1 h-3 w-3" />
+                  {review.user ? review.user.name : "User"}
+                </div>
+                <div className="flex items-center">
+                  <Calendar className="mr-1 h-3 w-3" />
+                  {formatDateTime(review.createdAt).dateTime}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
