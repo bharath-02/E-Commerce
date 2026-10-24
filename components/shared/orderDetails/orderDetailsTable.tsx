@@ -26,11 +26,13 @@ import {
   updateOrderToPaidCOD,
   deliverOrder,
 } from "@/lib/actions/order.actions";
+import { StripePayment } from "../stripe/stripePayment";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Order } from "@/types";
 
 type Props = {
   order: Order;
+  stripeClientSecret: string | null;
   paypalClientId: string;
   isAdmin: boolean;
 };
@@ -98,6 +100,7 @@ const PrintLoadingState = () => {
 
 export const OrderDetailsTable = ({
   order,
+  stripeClientSecret,
   paypalClientId,
   isAdmin,
 }: Props) => {
@@ -250,6 +253,15 @@ export const OrderDetailsTable = ({
                     />
                   </PayPalScriptProvider>
                 </div>
+              )}
+
+              {/* Stripe Payment */}
+              {!isPaid && paymentMethod === "Stripe" && stripeClientSecret && (
+                <StripePayment
+                  priceInCents={Number(order.totalPrice) * 100}
+                  orderId={order.id}
+                  clientSecret={stripeClientSecret}
+                />
               )}
 
               {/* Cash On Delivery */}
