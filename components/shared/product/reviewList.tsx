@@ -34,8 +34,9 @@ export const ReviewList = ({ userId, productId, productSlug }: Props) => {
     loadReviews();
   }, [productId]);
 
-  const reload = () => {
-    console.log("Review Submitted");
+  const reload = async () => {
+    const res = await getReviews({ productId });
+    setReviews([...res.data]);
   };
 
   return (

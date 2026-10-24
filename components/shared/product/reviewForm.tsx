@@ -32,7 +32,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { createOrUpdateReview } from "@/lib/actions/review.actions";
+import {
+  createOrUpdateReview,
+  getReviewByProductId,
+} from "@/lib/actions/review.actions";
 import { reviewFormDefaultValues } from "@/lib/constants";
 import { insertReviewSchema } from "@/lib/validators";
 
@@ -54,9 +57,16 @@ export const ReviewForm = ({ userId, productId, onReviewSubmitted }: Props) => {
     defaultValues: reviewFormDefaultValues,
   });
 
-  const handleOpenForm = () => {
+  const handleOpenForm = async () => {
     form.setValue("productId", productId);
     form.setValue("userId", userId);
+
+    const review = await getReviewByProductId({ productId });
+    if (review) {
+      form.setValue("title", review.title);
+      form.setValue("description", review.description);
+      form.setValue("rating", review.rating);
+    }
 
     setOpen(true);
   };
