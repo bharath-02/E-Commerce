@@ -67,7 +67,7 @@ export const PurchaseReceiptEmail = ({ order }: Props) => {
                       className="rounded"
                       src={
                         item.image.startsWith("/")
-                          ? `${process.env.NEXT_PUBLLIC_SERVER_URL}${item.image}`
+                          ? `${process.env.NEXT_PUBLIC_SERVER_URL}${item.image}`
                           : item.image
                       }
                     />

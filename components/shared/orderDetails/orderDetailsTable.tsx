@@ -31,7 +31,7 @@ import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Order } from "@/types";
 
 type Props = {
-  order: Order;
+  order: Omit<Order, "paymentResult">;
   stripeClientSecret: string | null;
   paypalClientId: string;
   isAdmin: boolean;
