@@ -7,6 +7,7 @@ import z from "zod";
 
 import { prisma } from "@/db/prisma";
 import { auth, signIn, signOut } from "@/auth";
+import { getMyCart } from "./cart.actions";
 import {
   paymentMethodSchema,
   shippingAddressSchema,
@@ -42,6 +43,9 @@ export async function signInWithCredentials(
 
 // Sign out user
 export async function signOutUser() {
+  // get current users cart and delete it so it does not persist to next user
+  const currentCart = await getMyCart();
+  await prisma.cart.delete({ where: { id: currentCart?.id } });
   await signOut();
 }
 
