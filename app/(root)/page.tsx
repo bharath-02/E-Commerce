@@ -1,6 +1,7 @@
 import { ProductList } from "@/components/shared/product/productList";
 import { ProductCarousel } from "@/components/shared/product/productCarousel";
 import ViewAllProducts from "@/components/shared/product/viewAllProducts";
+import DealCountDown from "@/components/shared/countDown";
 import IconBoxes from "@/components/shared/iconBoxes";
 import {
   getLatestProducts,
@@ -18,6 +19,7 @@ const HomePage = async () => {
       )}
       <ProductList data={latestProducts} title="Newest Arrivals" limit={8} />
       <ViewAllProducts />
+      <DealCountDown />
       <IconBoxes />
     </>
   );

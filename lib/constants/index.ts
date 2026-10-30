@@ -40,3 +40,8 @@ export const reviewFormDefaultValues = {
 };
 
 export const SENDER_EMAIL = process.env.SENDER_EMAIL || "onboarding@resend.dev";
+
+// Static target date (replace with desired date)
+export const TARGET_DATE = new Date(
+  process.env.TARGET_DATE || "2026-12-31T00:00:00",
+);
