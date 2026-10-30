@@ -27,3 +27,7 @@ After editing schema.prisma file, please make sure to run below commands
 To Seed data to the DB
 
 - npx tsx db/seed.ts
+
+### Live site
+
+https://e-commerce-wine-nine-45.vercel.app/
